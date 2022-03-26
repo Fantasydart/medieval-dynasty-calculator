@@ -1,89 +1,90 @@
 <template>
   <div id="app">
-    <h1>{{locale.headerText}}</h1>
+    <h1>{{ locale.headerText }}</h1>
     <div class="langs">
-      {{locale.languages}}
-      <select
-       name="langs" id="langs"
-       @change="changeLanguage">
-        <option
-         v-for="lang in langs"
-          :value="lang">{{locale[lang]}}</option>
+      {{ locale.languages }}
+      <select name="langs" id="langs" @change="changeLanguage">
+        <option v-for="lang in langs" :value="lang">{{ locale[lang] }}</option>
       </select>
     </div>
     <div class="app-wrapper">
- <div class="product" v-for="product in products">
-      <div class="product-img">
-        <img :src="require(`@/assets/images/products/${product.img}`)" alt="">
-      </div>
-      <div class="product-desc">
-        <div class="product-title">{{locale[product.name]}}</div>
-        <div class="product-igredient">
-          <div class="_title">{{locale.ingredients}}: </div>
-          <div 
-          class="product-igredient__item"
-          v-for="(count ,resourse) in product.ingredient
-          ">
-            <span class="resoureces-icon">
-              <img :src="require(`@/assets/images/icons/${resourse}.svg`)" alt="">
-            </span>
-            <span class="resoureces-info">{{locale[resourse]}} - {{count}}</span>
-              
+      <div class="product" v-for="product in products">
+        <div class="product-img">
+          <img
+            :src="require(`@/assets/images/products/${product.img}`)"
+            alt=""
+          />
+        </div>
+        <div class="product-desc">
+          <div class="product-title">{{ locale[product.name] }}</div>
+          <div class="product-igredient">
+            <div class="_title">{{ locale.ingredients }}:</div>
+            <div
+              class="product-igredient__item"
+              v-for="(count, resourse) in product.ingredient"
+            >
+              <span class="resoureces-icon">
+                <img
+                  :src="require(`@/assets/images/icons/${resourse}.svg`)"
+                  alt=""
+                />
+              </span>
+              <span class="resoureces-info"
+                >{{ locale[resourse] }} - {{ count }}</span
+              >
+            </div>
+          </div>
+          <div class="product-price">
+            Стоимость производства: {{ getCost(product.ingredient) }}<br />
+            Цена продажи: x
           </div>
         </div>
-        <div class="product-price">
-          Стоимость производства: {{getCost(product.ingredient)}}<br>
-          Цена продажи: x
-        </div>
       </div>
-        
     </div>
-    </div>
-   
   </div>
 </template>
 
 <script>
-import languages from '@/languages/index.js'
+import languages from '@/languages/index.js';
 export default {
   name: 'App',
   data() {
     return {
       languages: languages,
       language: 'ru',
-      langs:  this.$store.state.languages,
+      langs: this.$store.state.languages,
       products: this.$store.state.products,
-      resoures: this.$store.state.resoures
-    }
+      resoures: this.$store.state.resoures,
+    };
   },
   computed: {
-    locale(){
-      return this.languages[this.language]
-    }
+    locale() {
+      return this.languages[this.language];
+    },
   },
   methods: {
-    getCost(ingredients){
+    getCost(ingredients) {
       let cost = 0;
-      for(let ingredient in ingredients){
-        let buyCost = this.$store.state.resources[ingredient].cost.buy
-        cost = cost + buyCost*ingredients[ingredient]
+      for (let ingredient in ingredients) {
+        let buyCost = this.$store.state.resources[ingredient].cost.buy;
+        cost = cost + buyCost * ingredients[ingredient];
       }
-      return cost
+      return cost;
     },
-    changeLanguage(lang){
-      this.language = lang.target.value
-    }
-  }
-}
+    changeLanguage(lang) {
+      this.language = lang.target.value;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-body{
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background: url('../src/assets/main_bg.jpg');
-  background-position:  center center;
+  background-position: center center;
   background-repeat: no-repeat;
   min-height: 100vh;
 }
@@ -95,11 +96,11 @@ body{
   padding: 20px;
   color: #fff;
 }
-h1{
+h1 {
   text-align: center;
 }
-.app-wrapper{
-display: grid;
+.app-wrapper {
+  display: grid;
   grid-gap: 20px;
   font-size: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -120,7 +121,7 @@ display: grid;
   border: 1px solid #f0f0f0;
 }
 .product-img img {
- max-width: 150px;
+  max-width: 150px;
   width: 100%;
 }
 .product-title {
@@ -146,7 +147,7 @@ display: grid;
   width: 20px;
   height: 20px;
 }
-.resoureces-icon img{
+.resoureces-icon img {
   width: 100%;
   height: 100%;
   max-width: 20px;
